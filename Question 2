@@ -1,0 +1,181 @@
+# ---------------- TOKENIZER ----------------
+def tokenize(expr):
+    tokens = []
+    i = 0
+
+    while i < len(expr):
+        c = expr[i]
+
+        if c.isdigit() or c == '.':
+            num = c
+            i += 1
+            while i < len(expr) and (expr[i].isdigit() or expr[i] == '.'):
+                num += expr[i]
+                i += 1
+            tokens.append(("NUM", float(num)))
+            continue
+
+        elif c in "+-*/":
+            tokens.append(("OP", c))
+
+        elif c == "(":
+            tokens.append(("LPAREN", c))
+
+        elif c == ")":
+            tokens.append(("RPAREN", c))
+
+        elif c == " ":
+            pass
+
+        else:
+            raise Exception("Invalid character")
+
+        i += 1
+
+    tokens.append(("END", ""))
+    return tokens
+
+
+# ---------------- PARSER ----------------
+def parse(tokens):
+    pos = 0
+
+    def expression():
+        nonlocal pos
+        node = term()
+
+        while tokens[pos][1] in ("+", "-"):
+            op = tokens[pos][1]
+            pos += 1
+            right = term()
+            node = (op, node, right)
+
+        return node
+
+    def term():
+        nonlocal pos
+        node = factor()
+
+        while tokens[pos][1] in ("*", "/"):
+            op = tokens[pos][1]
+            pos += 1
+            right = factor()
+            node = (op, node, right)
+
+        return node
+
+    def factor():
+        nonlocal pos
+        token = tokens[pos]
+
+        # unary negation
+        if token[0] == "OP" and token[1] == "-":
+            pos += 1
+            return ("neg", factor())
+
+        if token[0] == "NUM":
+            pos += 1
+            return token[1]
+
+        if token[0] == "LPAREN":
+            pos += 1
+            node = expression()
+            if tokens[pos][0] != "RPAREN":
+                raise Exception("Missing )")
+            pos += 1
+            return node
+
+        raise Exception("Invalid syntax")
+
+    tree = expression()
+    return tree
+
+
+# ---------------- TREE STRING ----------------
+def tree_to_string(node):
+    if isinstance(node, float):
+        return str(int(node)) if node.is_integer() else str(node)
+
+    if node[0] == "neg":
+        return f"(neg {tree_to_string(node[1])})"
+
+    op, left, right = node
+    return f"({op} {tree_to_string(left)} {tree_to_string(right)})"
+
+
+# ---------------- EVALUATOR ----------------
+def evaluate(node):
+    if isinstance(node, float):
+        return node
+
+    if node[0] == "neg":
+        return -evaluate(node[1])
+
+    op, left, right = node
+
+    if op == "+":
+        return evaluate(left) + evaluate(right)
+    if op == "-":
+        return evaluate(left) - evaluate(right)
+    if op == "*":
+        return evaluate(left) * evaluate(right)
+    if op == "/":
+        return evaluate(left) / evaluate(right)
+
+
+# ---------------- TOKEN STRING ----------------
+def tokens_to_string(tokens):
+    result = []
+    for t in tokens:
+        if t[0] == "END":
+            result.append("[END]")
+        else:
+            result.append(f"[{t[0]}:{t[1]}]")
+    return " ".join(result)
+
+
+# ---------------- MAIN FUNCTION ----------------
+def evaluate_file(input_path: str):
+    results = []
+    output_path = os.path.join(os.path.dirname(input_path), "output.txt")
+
+    with open(input_path, "r") as f, open(output_path, "w") as out:
+        for line in f:
+            expr = line.strip()
+
+            if not expr:
+                continue
+
+            try:
+                tokens = tokenize(expr)
+                tree = parse(tokens)
+                value = evaluate(tree)
+
+                tree_str = tree_to_string(tree)
+                tokens_str = tokens_to_string(tokens)
+
+                # formatting result
+                if value.is_integer():
+                    value_out = str(int(value))
+                else:
+                    value_out = f"{value:.4f}"
+
+            except:
+                tree_str = "ERROR"
+                tokens_str = "ERROR"
+                value_out = "ERROR"
+
+            # write output
+            out.write(f"Input: {expr}\n")
+            out.write(f"Tree: {tree_str}\n")
+            out.write(f"Tokens: {tokens_str}\n")
+            out.write(f"Result: {value_out}\n\n")
+
+            results.append({
+                "input": expr,
+                "tree": tree_str,
+                "tokens": tokens_str,
+                "result": value if value_out != "ERROR" else "ERROR"
+            })
+
+    return results
