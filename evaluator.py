@@ -1,3 +1,4 @@
+# give access to file path
 import os
 
 # -------- TOKENISE --------
@@ -5,44 +6,44 @@ def get_tokens(expression):
     tokens = []
     i = 0
 
-    while i < len(expression):
+    while i < len(expression): #read expression one character at a time
         ch = expression[i]
 
-        if ch.isdigit() or ch == '.':
+        if ch.isdigit() or ch == '.':  #creates full numbers including decimals
             number = ch
             i += 1
             while i < len(expression) and (expression[i].isdigit() or expression[i] == '.'):
                 number += expression[i]
                 i += 1
-            tokens.append(("NUM", float(number)))
+            tokens.append(("NUM", float(number)))  #stores NUM token
             continue
 
         elif ch in "+-*/":
-            tokens.append(("OP", ch))
+            tokens.append(("OP", ch))     #stores OP token
 
         elif ch == "(":
-            tokens.append(("LPAREN", ch))
+            tokens.append(("LPAREN", ch))    #stores LPAREN token
 
         elif ch == ")":
-            tokens.append(("RPAREN", ch))
+            tokens.append(("RPAREN", ch))    #stores RPAREN token
 
-        elif ch == " ":
+        elif ch == " ":     #ignores spaces
             pass
 
         else:
-            raise ValueError("Invalid character in expression")
+            raise ValueError("Invalid character in expression")    #creates ERROR
 
         i += 1
 
-    tokens.append(("END", ""))
+    tokens.append(("END", ""))      #marks the end of the imput
     return tokens
 
 
-# -------- PARSER --------
+# -------- PARSER --------#creates the tree structure
 def build_tree(tokens):
     index = 0
 
-    def parse_expression():
+    def parse_expression(): #multiplication and division first, then additon and subtraction
         nonlocal index
         node = parse_term()
 
@@ -70,8 +71,7 @@ def build_tree(tokens):
         nonlocal index
         tok_type, tok_val = tokens[index]
 
-        # unary negation
-        if tok_type == "OP" and tok_val == "-":
+        if tok_type == "OP" and tok_val == "-": #ensures unary negation, separates minus simbol from negative
             index += 1
             return ("neg", parse_factor())
 
@@ -83,7 +83,7 @@ def build_tree(tokens):
             index += 1
             node = parse_expression()
             if tokens[index][0] != "RPAREN":
-                raise ValueError("Missing closing bracket")
+                raise ValueError("Missing closing bracket")  #checks correct brackets
             index += 1
             return node
 
@@ -92,7 +92,7 @@ def build_tree(tokens):
     return parse_expression()
 
 
-# -------- TREE STRING --------
+# -------- TREE STRING -------- # turn tree into more string like
 def format_tree(node):
     if isinstance(node, float):
         return str(int(node)) if node.is_integer() else str(node)
@@ -105,8 +105,8 @@ def format_tree(node):
 
 
 # -------- EVALUATE --------
-def solve(node):
-    if isinstance(node, float):
+def solve(node): #computes the results
+    if isinstance(node, float): 
         return node
 
     if node[0] == "neg":
@@ -125,7 +125,7 @@ def solve(node):
 
 
 # -------- TOKENS STRING --------
-def format_tokens(tokens):
+def format_tokens(tokens): #converts results into the desired output format
     parts = []
     for t in tokens:
         if t[0] == "END":
@@ -136,11 +136,11 @@ def format_tokens(tokens):
 
 
 # -------- MAIN FUNCTION --------
-def evaluate_file(input_path: str):
+def evaluate_file(input_path: str): #controller
     results = []
-    output_path = os.path.join(os.path.dirname(input_path), "output.txt")
+    output_path = os.path.join(os.path.dirname(input_path), "output.txt") #sets up output text
 
-    with open(input_path, "r") as file, open(output_path, "w") as out:
+    with open(input_path, "r") as file, open(output_path, "w") as out: #opens up output file
         for line in file:
             expr = line.strip()
             if not expr:
