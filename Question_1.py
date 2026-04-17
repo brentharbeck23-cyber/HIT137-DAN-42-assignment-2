@@ -71,6 +71,6 @@ if 0 < shift_1 < 13 and 0 < shift_2 < 13:
     write_file('decrypted_text.txt',text_decrypt)
 else: print('Error')
 
-if read_file('encryted_text.txt') == read_file('decrypted_text.txt'):
+if read_file('decrypted_text.txt') == read_file('raw_text.txt'):
     print('Your decryption was successful!')
 else: print('Your decryption was unsuccessful :/')
