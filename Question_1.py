@@ -60,12 +60,17 @@ def write_file(file_name: str, content: str) -> None:
 
 #Main program body (run 'encrypt' then write the txt file or run 'decrypt' then write the text file and verify)
 
-text = file.read_file(raw_text.txt)
+text = read_file('raw_text.txt')
 shift_1 = int(input('Choose a number from 1 to 12 > '))
 shift_2 = int(input('Choose another number from 1 to 12 > '))
-# Check that the number is between 1 and 12
+# Check that the number is between 1 and 12 and run the encrypt function
 if 0 < shift_1 < 13 and 0 < shift_2 < 13:
     text_encrypt = (encrypt(text,shift_1,shift_2))
+    write_file('encryted_text.txt',text_encrypt)
+    text_decrypt = decrypt(read_file('encryted_text.txt'),shift_1,shift_1)
+    write_file('decrypted_text.txt',text_decrypt)
 else: print('Error')
-write_file(encrypt(text,shift_1,shift_2))
-print(decrypt(text_encrypt,shift_1,shift_2))
+
+if read_file('encryted_text.txt') == read_file('decrypted_text.txt'):
+    print('Your decryption was successful!')
+else: print('Your decryption was unsuccessful :/')
