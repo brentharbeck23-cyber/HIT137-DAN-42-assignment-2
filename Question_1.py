@@ -46,11 +46,23 @@ def decrypt(text_encrypt, shift_1, shift_2):
             result_decrypt += char
     return result_decrypt
 
+#Define the read function
+
+def read_file(file_name: str) -> str:
+    """Reads and returns the content of a text file."""
+    with open(file_name, "r", encoding="utf-8") as file:
+        return file.read()
+
+#Define the write function
+
+def write_file(file_name: str, content: str) -> None:
+    """Writes content to a text file."""
+    with open(file_name, "w", encoding="utf-8") as file:
+        file.write(content)
+
 #Main program body (run 'encrypt' then write the txt file or run 'decrypt' then write the text file and verify)
 
-text = ('''The quick brown fox jumps over the lazy dog beneath the shady willows. The dog, startled from his peaceful afternoon nap, quickly rises and chases after the mischievous fox. 
-
-<<<Through vibrant meadows and past buzzing beehives they race, disturbing a flock of quails that scatter into the crisp autumn sky.>>> The fox, quite pleased with his clever prank, dashes into his cozy underground den while the dog, now exhausted from the zealous pursuit, returns to his favorite spot under the whispering branches to resume his quiet slumber.''')
+text = file.read_file()
 shift_1 = int(input('Choose a number from 1 to 12 > '))
 shift_2 = int(input('Choose another number from 1 to 12 > '))
 text_encrypt = (encrypt(text,shift_1,shift_2))
