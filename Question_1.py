@@ -49,22 +49,23 @@ def decrypt(text_encrypt, shift_1, shift_2):
 #Define the read function
 
 def read_file(file_name: str) -> str:
-    """Reads and returns the content of a text file."""
-    with open(file_name, "r", encoding="utf-8") as file:
+    with open(file_name, 'r', encoding='utf-8') as file:
         return file.read()
 
 #Define the write function
 
 def write_file(file_name: str, content: str) -> None:
-    """Writes content to a text file."""
-    with open(file_name, "w", encoding="utf-8") as file:
-        file.write(content)
+    with open(file_name, 'w', encoding='utf-8') as file:
+        return file.write(content)
 
 #Main program body (run 'encrypt' then write the txt file or run 'decrypt' then write the text file and verify)
 
-text = file.read_file()
+text = file.read_file(raw_text.txt)
 shift_1 = int(input('Choose a number from 1 to 12 > '))
 shift_2 = int(input('Choose another number from 1 to 12 > '))
-text_encrypt = (encrypt(text,shift_1,shift_2))
-print(encrypt(text,shift_1,shift_2))
+# Check that the number is between 1 and 12
+if 0 < shift_1 < 13 and 0 < shift_2 < 13:
+    text_encrypt = (encrypt(text,shift_1,shift_2))
+else: print('Error')
+write_file(encrypt(text,shift_1,shift_2))
 print(decrypt(text_encrypt,shift_1,shift_2))
