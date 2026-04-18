@@ -2,6 +2,7 @@ import os
 
 # ==========================================================
 # TOKENIZER
+# turns a string into a list
 # ==========================================================
 def tokenize_expression(text):
     tokens = []
@@ -10,10 +11,12 @@ def tokenize_expression(text):
     while cursor < len(text):
         char = text[cursor]
 
+        #handle whitespace
         if char.isspace():
             cursor += 1
             continue
 
+        #handles numbers (including decimals)
         if char.isdigit() or char == '.':
             number_str = ""
             while cursor < len(text) and (text[cursor].isdigit() or text[cursor] == '.'):
@@ -22,6 +25,7 @@ def tokenize_expression(text):
             tokens.append(("NUM", number_str))
             continue
 
+        # handles oporators and parentheses
         if char in "+-*/":
             tokens.append(("OP", char))
         elif char == "(":
@@ -62,6 +66,8 @@ def add_implicit_multiplication(tokens):
 
 # ==========================================================
 # PARSER (NO CLASSES)
+# takes the list of tokens and creates the 'tree'
+# follows rules of BIMDAS
 # ==========================================================
 def parse(tokens):
     index = 0
