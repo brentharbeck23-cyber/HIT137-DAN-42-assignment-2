@@ -1,0 +1,35 @@
+Input: 12 + 6
+Tree: (+ 12 6)
+Tokens: [NUM:12] [OP:+] [NUM:6] [END:]
+Result: 18.0
+
+Input: 3 * 4 + 8
+Tree: (+ (* 3 4) 8)
+Tokens: [NUM:3] [OP:*] [NUM:4] [OP:+] [NUM:8] [END:]
+Result: 20.0
+
+Input: -(5 + 6)
+Tree: (neg (+ 5 6))
+Tokens: [OP:-] [LPAREN:(] [NUM:5] [OP:+] [NUM:6] [RPAREN:)] [END:]
+Result: -11.0
+
+Input: -7
+Tree: (neg 7)
+Tokens: [OP:-] [NUM:7] [END:]
+Result: -7.0
+
+Input: (4 - 1) * 5 -6 / 3
+Tree: (- (* (- 4 1) 5) (/ 6 3))
+Tokens: [LPAREN:(] [NUM:4] [OP:-] [NUM:1] [RPAREN:)] [OP:*] [NUM:5] [OP:-] [NUM:6] [OP:/] [NUM:3] [END:]
+Result: 13.0
+
+Input: 6 @ 4
+Tree: ERROR
+Tokens: ERROR
+Result: ERROR
+
+Input: 6 / 0
+Tree: ERROR
+Tokens: ERROR
+Result: ERROR
+
