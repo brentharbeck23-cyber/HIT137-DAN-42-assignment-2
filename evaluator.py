@@ -222,7 +222,7 @@ def evaluate_file(input_path: str) -> list[dict]:
 
 # ================================================
 # APPLY EVALUATOR FUNCTION TO INPUT FILE RESULTING IN OUTPUT FILE 
-## EDIT FILE STRING "input.txt" IF NEEDED FOR DIFFERENT INPUT FILE NAME
+# edit file string "input.txt" if needed for a different input file name
 # ================================================
 
 if __name__ == "__main__":
