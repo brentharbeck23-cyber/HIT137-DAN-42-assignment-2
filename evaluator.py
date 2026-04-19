@@ -220,11 +220,10 @@ def evaluate_file(input_path: str) -> list[dict]:
     return results
 
 # ================================================
-# APPLY EVALUATOR MAIN FUNCTION TO INPUT FILE 
+# APPLY EVALUATOR FUNCTION TO INPUT FILE 
 # ================================================
 
 if __name__ == "__main__":
-    evaluate_file("sample_input.txt")
+    evaluate_file("input.txt")   #EDIT FILE STRING "input.txt" AS NEEDED   
+    
 
-else __name__ == "__main__":
-    evaluate_file("input.txt") 
