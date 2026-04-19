@@ -1,15 +1,7 @@
-                       #TEST CASES:
-12 + 6                 #basic operator
-3 * 4 + 8              #basic operator
--(5 + 6)               #unary(-) and parenthesis
--7                     #unary(-)
-(4 - 1) * 5 -6 / 3     #parentheses
-6 @ 4                  #invalid character
-6 / 0                  #div by zero
-+79                    #unary(+)  
-82 + + 123             #unary(+) 
-((36-78)/((54+7))      #nested parentheses
---- 5                  #multiple negation
-2(57-2)                #implicit multiplication
-a+5                    #string integer addition
-((6((65/69)/(54*56)))  #deeply-nested parentheses   
+12 + 6                 
+3 * 4 + 8             
+-(5 + 6)             
+-7                    
+(4 - 1) * 5 -6 / 3     
+6 @ 4                 
+6 / 0                
