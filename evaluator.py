@@ -162,6 +162,7 @@ def format_tokens(tokens):
 
 # ==========================================================
 # MAIN REQUIRED FUNCTION
+# DEFINE OUTPUT PATH
 # ==========================================================
 def evaluate_file(input_path: str) -> list[dict]:
     results = []
@@ -220,10 +221,11 @@ def evaluate_file(input_path: str) -> list[dict]:
     return results
 
 # ================================================
-# APPLY EVALUATOR FUNCTION TO INPUT FILE 
+# APPLY EVALUATOR FUNCTION TO INPUT FILE RESULTING IN OUTPUT FILE 
+## EDIT FILE STRING "input.txt" IF NEEDED FOR DIFFERENT INPUT FILE NAME
 # ================================================
 
 if __name__ == "__main__":
-    evaluate_file("input.txt")   #EDIT FILE STRING "input.txt" AS NEEDED   
+    evaluate_file("input.txt")      
     
 
