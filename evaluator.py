@@ -218,3 +218,13 @@ def evaluate_file(input_path: str) -> list[dict]:
             out.write(f"Result: {result['result']}\n\n")
 
     return results
+
+# ================================================
+# APPLY EVALUATOR MAIN FUNCTION TO INPUT FILE 
+# ================================================
+
+if __name__ == "__main__"
+    evaluate_file("sample_input.txt")
+
+else __name__ == "__main__"
+    evaluate_file("input.txt") 
